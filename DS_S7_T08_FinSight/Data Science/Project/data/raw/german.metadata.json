@@ -1,0 +1,7 @@
+{
+  "source_url": "https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data",
+  "dataset_page": "https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data",
+  "retrieved_at_utc": "2026-08-14T06:07:51.850169+00:00",
+  "sha256": "b21f3d81db8071257d5ff1deaeba1fd4303b62712e6fcc9715c7a86202cb5871",
+  "bytes": 79793
+}

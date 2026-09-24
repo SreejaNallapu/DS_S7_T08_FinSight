@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}FinSight | Applicant Assessment{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Saved pipeline inference</p><h1>Applicant Risk Assessment</h1><p>Enter the 20 original applicant predictors. Identifier and outcome fields are intentionally excluded.</p></div>
+<div class="threshold-note mb-4">The 13% cost-sensitive classification threshold is separate from display bands: LOW &lt; 30, MODERATE 30–60, HIGH ≥ 60.</div>
+{% if error %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endif %}
+<div class="row g-4">
+  <div class="col-xl-7">
+    <form method="post" class="card panel-card prediction-form" novalidate>
+      <div class="card-body">
+        <div class="row g-3">
+          {% for field in fields %}
+          <div class="col-md-6">
+            <label class="form-label" for="{{ field.name }}">{{ field.label }}</label>
+            {% if field.categorical %}
+            <select class="form-select" id="{{ field.name }}" name="{{ field.name }}" required>
+              <option value="">Select…</option>
+              {% for option in field.options %}<option value="{{ option.value }}" {% if values.get(field.name) == option.value %}selected{% endif %}>{{ option.label }}</option>{% endfor %}
+            </select>
+            {% else %}
+            <input class="form-control" type="number" id="{{ field.name }}" name="{{ field.name }}" min="{{ field.minimum }}" max="{{ field.maximum }}" step="1" value="{{ values.get(field.name, '') }}" required>
+            {% endif %}
+            {% if field.helper %}<div class="form-text">{{ field.helper }}</div>{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-0 p-3"><button class="btn btn-primary btn-lg w-100" type="submit">Calculate model estimate</button></div>
+    </form>
+  </div>
+  <div class="col-xl-5">
+    {% if result %}
+    <div class="card result-card h-100"><div class="card-body">
+      <div class="d-flex justify-content-between align-items-start mb-3"><div><p class="eyebrow">Assessment result</p><h2 class="h3 mb-0">{{ result.predicted_class|upper }} classification</h2></div><span class="risk-badge risk-{{ result.risk_band|lower }}">{{ result.risk_band }}</span></div>
+      <div class="result-grid mb-4">
+        <div><span>Bad-risk probability</span><strong>{{ '%.2f'|format(result.bad_risk_probability * 100) }}%</strong></div>
+        <div><span>Risk score</span><strong>{{ '%.2f'|format(result.risk_score) }} / 100</strong></div>
+        <div><span>Decision threshold</span><strong>{{ '%.0f'|format(result.decision_threshold * 100) }}%</strong></div>
+        <div><span>Suggested action</span><strong class="action-text">{{ result.suggested_action }}</strong></div>
+      </div>
+      <h3 class="h6">Factors increasing predicted bad risk</h3><ul class="factor-list risk-factors">{% for factor in result.top_risk_factors %}<li>{{ factor.feature }} <span>{{ '%+.3f'|format(factor.shap_value) }}</span></li>{% endfor %}</ul>
+      <h3 class="h6 mt-4">Protective factors</h3><ul class="factor-list protective-factors">{% for factor in result.top_protective_factors %}<li>{{ factor.feature }} <span>{{ '%+.3f'|format(factor.shap_value) }}</span></li>{% endfor %}</ul>
+      <a class="btn btn-outline-primary mt-3" href="{{ url_for('explain') }}">View explanation details</a>
+    </div></div>
+    {% else %}
+    <div class="card panel-card h-100"><div class="card-body empty-state"><h2 class="h5">Assessment result</h2><p>Complete the form to calculate a model-estimated bad-risk probability, 0–100 score, display band, and SHAP factors.</p><p class="small mb-0">No model fitting occurs during prediction.</p></div></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

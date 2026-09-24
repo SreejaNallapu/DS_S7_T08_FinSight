@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}FinSight | Explainability{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Model transparency</p><h1>SHAP Explainability</h1><p>SHAP describes how this saved model reached its estimates. It does not prove causation or fairness.</p></div>
+{% if error %}<div class="alert alert-warning">{{ error }}</div>{% endif %}
+<section class="row g-4 mb-4">
+  <div class="col-xl-8"><div class="card panel-card h-100"><div class="card-body"><h2 class="h5">Global feature influence</h2><p>Longer bars indicate greater average influence magnitude across the dataset. Direction is not shown in this global magnitude chart.</p>{% if shap_available %}<img class="img-fluid artifact-image" src="{{ url_for('artifact_plot', name='shap_summary.png') }}" alt="Global SHAP feature importance">{% else %}<p class="text-muted">Global SHAP plot unavailable.</p>{% endif %}</div></div></div>
+  <div class="col-xl-4"><div class="card panel-card h-100"><div class="card-body"><h2 class="h5">Top global features</h2><ol class="importance-list">{% for item in global_features %}<li><span>{{ item.feature|replace('_', ' ') }}</span><strong>{{ '%.3f'|format(item.mean_absolute_shap) }}</strong></li>{% else %}<li>Generated importance data unavailable.</li>{% endfor %}</ol></div></div></div>
+</section>
+<section class="card panel-card"><div class="card-body"><h2 class="h5">Latest applicant explanation</h2>
+{% if local %}
+<div class="row g-3 mb-3"><div class="col-md-3"><div class="mini-metric"><span>Probability</span><strong>{{ '%.2f'|format(local.bad_risk_probability * 100) }}%</strong></div></div><div class="col-md-3"><div class="mini-metric"><span>Score</span><strong>{{ '%.2f'|format(local.risk_score) }}</strong></div></div><div class="col-md-3"><div class="mini-metric"><span>Band</span><strong>{{ local.risk_band }}</strong></div></div><div class="col-md-3"><div class="mini-metric"><span>Class</span><strong>{{ local.predicted_class|upper }}</strong></div></div></div>
+<div class="row g-4"><div class="col-lg-6"><h3 class="h6">Risk-increasing factors</h3><ul class="factor-list risk-factors">{% for factor in local.top_risk_factors %}<li>{{ factor.feature }} <span>{{ '%+.3f'|format(factor.shap_value) }}</span></li>{% endfor %}</ul></div><div class="col-lg-6"><h3 class="h6">Protective factors</h3><ul class="factor-list protective-factors">{% for factor in local.top_protective_factors %}<li>{{ factor.feature }} <span>{{ '%+.3f'|format(factor.shap_value) }}</span></li>{% endfor %}</ul></div></div>
+{% else %}<p class="mb-0">No applicant has been assessed in this browser session. <a href="{{ url_for('predict') }}">Run an assessment</a> to see a local explanation.</p>{% endif %}
+</div></section>
+{% endblock %}

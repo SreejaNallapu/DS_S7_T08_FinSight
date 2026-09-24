@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}FinSight{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand fw-semibold" href="{{ url_for('index') }}">FinSight</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'index' %} active{% endif %}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %} href="{{ url_for('index') }}">Overview</a></li>
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'portfolio' %} active{% endif %}" {% if request.endpoint == 'portfolio' %}aria-current="page"{% endif %} href="{{ url_for('portfolio') }}">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'predict' %} active{% endif %}" {% if request.endpoint == 'predict' %}aria-current="page"{% endif %} href="{{ url_for('predict') }}">Assessment</a></li>
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'explain' %} active{% endif %}" {% if request.endpoint == 'explain' %}aria-current="page"{% endif %} href="{{ url_for('explain') }}">Explainability</a></li>
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'performance' %} active{% endif %}" {% if request.endpoint == 'performance' %}aria-current="page"{% endif %} href="{{ url_for('performance') }}">Performance</a></li>
+          <li class="nav-item"><a class="nav-link{% if request.endpoint == 'whatif' %} active{% endif %}" {% if request.endpoint == 'whatif' %}aria-current="page"{% endif %} href="{{ url_for('whatif') }}">What-If</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-fluid page-shell px-3 px-lg-4 py-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    {% if standalone_error %}<div class="card panel-card"><div class="card-body"><h1 class="h4">Unable to display page</h1><p class="mb-0">{{ standalone_error }}</p></div></div>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

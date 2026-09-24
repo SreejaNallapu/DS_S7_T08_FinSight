@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}FinSight | Portfolio Analytics{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Historical portfolio</p><h1>Portfolio Analytics</h1><p>Descriptive patterns from the processed 1,000-applicant analytics dataset. Rates and distributions are associations, not causal effects.</p></div>
+{% if error %}<div class="alert alert-warning">{{ error }}</div>{% endif %}
+<section class="row g-4">
+  {% for chart in charts %}<div class="col-xl-6"><div class="card panel-card h-100"><div class="card-body plot-wrap">{{ chart|safe }}</div></div></div>{% endfor %}
+</section>
+{% endblock %}

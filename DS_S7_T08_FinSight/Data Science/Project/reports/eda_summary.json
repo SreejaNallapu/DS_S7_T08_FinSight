@@ -1,0 +1,400 @@
+{
+  "data_quality": {
+    "rows": 1000,
+    "columns": 21,
+    "completeness_percent": 100.0,
+    "missing_values": 0,
+    "duplicate_rows": 0,
+    "invalid_values": 0,
+    "validation_errors": [],
+    "validation_warnings": []
+  },
+  "class_distribution": {
+    "good": {
+      "code": 1,
+      "count": 700,
+      "percent": 70.0
+    },
+    "bad": {
+      "code": 2,
+      "count": 300,
+      "percent": 30.0
+    }
+  },
+  "numeric_summary": {
+    "duration_months": {
+      "count": 1000.0,
+      "mean": 20.9,
+      "std": 12.06,
+      "min": 4.0,
+      "25%": 12.0,
+      "50%": 18.0,
+      "75%": 24.0,
+      "max": 72.0
+    },
+    "credit_amount": {
+      "count": 1000.0,
+      "mean": 3271.26,
+      "std": 2822.74,
+      "min": 250.0,
+      "25%": 1365.5,
+      "50%": 2319.5,
+      "75%": 3972.25,
+      "max": 18424.0
+    },
+    "installment_rate": {
+      "count": 1000.0,
+      "mean": 2.97,
+      "std": 1.12,
+      "min": 1.0,
+      "25%": 2.0,
+      "50%": 3.0,
+      "75%": 4.0,
+      "max": 4.0
+    },
+    "residence_duration": {
+      "count": 1000.0,
+      "mean": 2.84,
+      "std": 1.1,
+      "min": 1.0,
+      "25%": 2.0,
+      "50%": 3.0,
+      "75%": 4.0,
+      "max": 4.0
+    },
+    "age_years": {
+      "count": 1000.0,
+      "mean": 35.55,
+      "std": 11.38,
+      "min": 19.0,
+      "25%": 27.0,
+      "50%": 33.0,
+      "75%": 42.0,
+      "max": 75.0
+    },
+    "existing_credits": {
+      "count": 1000.0,
+      "mean": 1.41,
+      "std": 0.58,
+      "min": 1.0,
+      "25%": 1.0,
+      "50%": 1.0,
+      "75%": 2.0,
+      "max": 4.0
+    },
+    "dependents": {
+      "count": 1000.0,
+      "mean": 1.16,
+      "std": 0.36,
+      "min": 1.0,
+      "25%": 1.0,
+      "50%": 1.0,
+      "75%": 1.0,
+      "max": 2.0
+    }
+  },
+  "potential_outliers_iqr": {
+    "duration_months": {
+      "q1": 12.0,
+      "q3": 24.0,
+      "lower_fence": -6.0,
+      "upper_fence": 42.0,
+      "potential_outliers": 70
+    },
+    "credit_amount": {
+      "q1": 1365.5,
+      "q3": 3972.25,
+      "lower_fence": -2544.62,
+      "upper_fence": 7882.38,
+      "potential_outliers": 72
+    },
+    "installment_rate": {
+      "q1": 2.0,
+      "q3": 4.0,
+      "lower_fence": -1.0,
+      "upper_fence": 7.0,
+      "potential_outliers": 0
+    },
+    "residence_duration": {
+      "q1": 2.0,
+      "q3": 4.0,
+      "lower_fence": -1.0,
+      "upper_fence": 7.0,
+      "potential_outliers": 0
+    },
+    "age_years": {
+      "q1": 27.0,
+      "q3": 42.0,
+      "lower_fence": 4.5,
+      "upper_fence": 64.5,
+      "potential_outliers": 23
+    },
+    "existing_credits": {
+      "q1": 1.0,
+      "q3": 2.0,
+      "lower_fence": -0.5,
+      "upper_fence": 3.5,
+      "potential_outliers": 6
+    },
+    "dependents": {
+      "q1": 1.0,
+      "q3": 1.0,
+      "lower_fence": 1.0,
+      "upper_fence": 1.0,
+      "potential_outliers": 155
+    }
+  },
+  "numeric_correlation_with_bad_risk": {
+    "duration_months": 0.2149,
+    "credit_amount": 0.1547,
+    "installment_rate": 0.0724,
+    "residence_duration": 0.003,
+    "age_years": -0.0911,
+    "existing_credits": -0.0457,
+    "dependents": -0.003
+  },
+  "categorical_bad_rates": {
+    "checking_account_status": {
+      "A11": {
+        "count": 274,
+        "bad_rate_percent": 49.27
+      },
+      "A12": {
+        "count": 269,
+        "bad_rate_percent": 39.03
+      },
+      "A13": {
+        "count": 63,
+        "bad_rate_percent": 22.22
+      },
+      "A14": {
+        "count": 394,
+        "bad_rate_percent": 11.68
+      }
+    },
+    "credit_history": {
+      "A30": {
+        "count": 40,
+        "bad_rate_percent": 62.5
+      },
+      "A31": {
+        "count": 49,
+        "bad_rate_percent": 57.14
+      },
+      "A32": {
+        "count": 530,
+        "bad_rate_percent": 31.89
+      },
+      "A33": {
+        "count": 88,
+        "bad_rate_percent": 31.82
+      },
+      "A34": {
+        "count": 293,
+        "bad_rate_percent": 17.06
+      }
+    },
+    "purpose": {
+      "A46": {
+        "count": 50,
+        "bad_rate_percent": 44.0
+      },
+      "A410": {
+        "count": 12,
+        "bad_rate_percent": 41.67
+      },
+      "A40": {
+        "count": 234,
+        "bad_rate_percent": 38.03
+      },
+      "A45": {
+        "count": 22,
+        "bad_rate_percent": 36.36
+      },
+      "A49": {
+        "count": 97,
+        "bad_rate_percent": 35.05
+      },
+      "A44": {
+        "count": 12,
+        "bad_rate_percent": 33.33
+      },
+      "A42": {
+        "count": 181,
+        "bad_rate_percent": 32.04
+      },
+      "A43": {
+        "count": 280,
+        "bad_rate_percent": 22.14
+      },
+      "A41": {
+        "count": 103,
+        "bad_rate_percent": 16.5
+      },
+      "A48": {
+        "count": 9,
+        "bad_rate_percent": 11.11
+      }
+    },
+    "savings_status": {
+      "A61": {
+        "count": 603,
+        "bad_rate_percent": 35.99
+      },
+      "A62": {
+        "count": 103,
+        "bad_rate_percent": 33.01
+      },
+      "A65": {
+        "count": 183,
+        "bad_rate_percent": 17.49
+      },
+      "A63": {
+        "count": 63,
+        "bad_rate_percent": 17.46
+      },
+      "A64": {
+        "count": 48,
+        "bad_rate_percent": 12.5
+      }
+    },
+    "employment_duration": {
+      "A72": {
+        "count": 172,
+        "bad_rate_percent": 40.7
+      },
+      "A71": {
+        "count": 62,
+        "bad_rate_percent": 37.1
+      },
+      "A73": {
+        "count": 339,
+        "bad_rate_percent": 30.68
+      },
+      "A75": {
+        "count": 253,
+        "bad_rate_percent": 25.3
+      },
+      "A74": {
+        "count": 174,
+        "bad_rate_percent": 22.41
+      }
+    },
+    "personal_status_sex": {
+      "A91": {
+        "count": 50,
+        "bad_rate_percent": 40.0
+      },
+      "A92": {
+        "count": 310,
+        "bad_rate_percent": 35.16
+      },
+      "A94": {
+        "count": 92,
+        "bad_rate_percent": 27.17
+      },
+      "A93": {
+        "count": 548,
+        "bad_rate_percent": 26.64
+      }
+    },
+    "other_debtors": {
+      "A102": {
+        "count": 41,
+        "bad_rate_percent": 43.9
+      },
+      "A101": {
+        "count": 907,
+        "bad_rate_percent": 29.99
+      },
+      "A103": {
+        "count": 52,
+        "bad_rate_percent": 19.23
+      }
+    },
+    "property": {
+      "A124": {
+        "count": 154,
+        "bad_rate_percent": 43.51
+      },
+      "A123": {
+        "count": 332,
+        "bad_rate_percent": 30.72
+      },
+      "A122": {
+        "count": 232,
+        "bad_rate_percent": 30.6
+      },
+      "A121": {
+        "count": 282,
+        "bad_rate_percent": 21.28
+      }
+    },
+    "other_installment_plans": {
+      "A141": {
+        "count": 139,
+        "bad_rate_percent": 41.01
+      },
+      "A142": {
+        "count": 47,
+        "bad_rate_percent": 40.43
+      },
+      "A143": {
+        "count": 814,
+        "bad_rate_percent": 27.52
+      }
+    },
+    "housing": {
+      "A153": {
+        "count": 108,
+        "bad_rate_percent": 40.74
+      },
+      "A151": {
+        "count": 179,
+        "bad_rate_percent": 39.11
+      },
+      "A152": {
+        "count": 713,
+        "bad_rate_percent": 26.09
+      }
+    },
+    "job": {
+      "A174": {
+        "count": 148,
+        "bad_rate_percent": 34.46
+      },
+      "A171": {
+        "count": 22,
+        "bad_rate_percent": 31.82
+      },
+      "A173": {
+        "count": 630,
+        "bad_rate_percent": 29.52
+      },
+      "A172": {
+        "count": 200,
+        "bad_rate_percent": 28.0
+      }
+    },
+    "telephone": {
+      "A191": {
+        "count": 596,
+        "bad_rate_percent": 31.38
+      },
+      "A192": {
+        "count": 404,
+        "bad_rate_percent": 27.97
+      }
+    },
+    "foreign_worker": {
+      "A201": {
+        "count": 963,
+        "bad_rate_percent": 30.74
+      },
+      "A202": {
+        "count": 37,
+        "bad_rate_percent": 10.81
+      }
+    }
+  }
+}

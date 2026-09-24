@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}FinSight | Model Performance{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Verified Day 3 results</p><h1>Model Performance</h1><p>Actual holdout metrics at training-selected cost thresholds. Bad risk is the positive class.</p></div>
+{% if error %}<div class="alert alert-warning">{{ error }}</div>{% endif %}
+{% if metrics %}
+<div class="table-responsive card panel-card mb-4"><table class="table align-middle mb-0 performance-table"><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>CV ROC-AUC</th><th>Cost</th></tr></thead><tbody>
+{% for name, values in metrics.models.items() %}{% set row=values.cost_sensitive %}<tr class="{% if name == metrics.selected_model.name %}selected-row{% endif %}"><td><strong>{{ name|replace('_',' ')|title }}</strong>{% if name == metrics.selected_model.name %}<span class="badge text-bg-primary ms-2">Selected</span>{% endif %}</td><td>{{ '%.4f'|format(row.accuracy) }}</td><td>{{ '%.4f'|format(row.precision) }}</td><td>{{ '%.4f'|format(row.recall) }}</td><td>{{ '%.4f'|format(row.f1) }}</td><td>{{ '%.4f'|format(row.roc_auc) }}</td><td>{{ '%.4f'|format(values.cv.roc_auc.mean) }} ± {{ '%.4f'|format(values.cv.roc_auc.std) }}</td><td>{{ row.cost.total_cost }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="callout mb-4"><strong>Selection rule.</strong> Gradient Boosting was selected from training cross-validation and out-of-fold 5:1 cost—not accuracy or holdout results alone. The 200-row holdout was reserved for final reporting.</div>
+<section class="row g-4"><div class="col-xl-6"><div class="card panel-card"><div class="card-body"><img class="img-fluid artifact-image" src="{{ url_for('artifact_plot', name='model_comparison.png') }}" alt="Model comparison"></div></div></div><div class="col-xl-6"><div class="card panel-card"><div class="card-body"><img class="img-fluid artifact-image" src="{{ url_for('artifact_plot', name='model_roc_curves.png') }}" alt="ROC curve comparison"></div></div></div><div class="col-xl-6"><div class="card panel-card"><div class="card-body"><img class="img-fluid artifact-image" src="{{ url_for('artifact_plot', name='final_model_confusion_matrix.png') }}" alt="Final model confusion matrix"></div></div></div></section>
+{% endif %}
+{% endblock %}

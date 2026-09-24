@@ -1,0 +1,1 @@
+"""FinSight Flask dashboard package."""

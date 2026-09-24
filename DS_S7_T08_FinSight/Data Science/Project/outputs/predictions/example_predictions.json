@@ -1,0 +1,375 @@
+{
+  "model": {
+    "name": "gradient_boosting",
+    "artifact": "models/finsight_pipeline.joblib",
+    "decision_threshold": 0.13,
+    "classifier_classes": [
+      0,
+      1
+    ],
+    "bad_risk_class": 1,
+    "target_mapping": {
+      "original": {
+        "1": "good credit risk",
+        "2": "bad credit risk"
+      },
+      "training": {
+        "0": "good credit risk",
+        "1": "bad credit risk"
+      },
+      "positive_class": 1,
+      "probability_output": "bad_risk_probability is predict_proba for training class 1"
+    }
+  },
+  "risk_score_formula": "bad_risk_probability * 100",
+  "risk_band_thresholds": {
+    "LOW": {
+      "minimum": 0.0,
+      "maximum_exclusive": 30.0
+    },
+    "MODERATE": {
+      "minimum": 30.0,
+      "maximum_exclusive": 60.0
+    },
+    "HIGH": {
+      "minimum": 60.0,
+      "maximum_inclusive": 100.0
+    }
+  },
+  "suggested_actions": {
+    "LOW": "Lower Predicted Risk",
+    "MODERATE": "Manual Review Suggested",
+    "HIGH": "Higher Predicted Risk"
+  },
+  "global_shap_features": [
+    {
+      "feature": "checking_account_status",
+      "mean_absolute_shap": 0.7682251929469868
+    },
+    {
+      "feature": "duration_months",
+      "mean_absolute_shap": 0.38825063938400844
+    },
+    {
+      "feature": "purpose",
+      "mean_absolute_shap": 0.3849030185400365
+    },
+    {
+      "feature": "credit_history",
+      "mean_absolute_shap": 0.3783909580459841
+    },
+    {
+      "feature": "savings_status",
+      "mean_absolute_shap": 0.3310220944198936
+    },
+    {
+      "feature": "credit_amount",
+      "mean_absolute_shap": 0.32869274126022063
+    },
+    {
+      "feature": "employment_duration",
+      "mean_absolute_shap": 0.2660643439717148
+    },
+    {
+      "feature": "other_installment_plans",
+      "mean_absolute_shap": 0.1920584111669647
+    },
+    {
+      "feature": "personal_status_sex",
+      "mean_absolute_shap": 0.1842745974972179
+    },
+    {
+      "feature": "property",
+      "mean_absolute_shap": 0.1824695154490289
+    },
+    {
+      "feature": "installment_rate",
+      "mean_absolute_shap": 0.15707295976740554
+    },
+    {
+      "feature": "age_years",
+      "mean_absolute_shap": 0.12941752014985536
+    },
+    {
+      "feature": "housing",
+      "mean_absolute_shap": 0.10209504187252108
+    },
+    {
+      "feature": "other_debtors",
+      "mean_absolute_shap": 0.06721105589167756
+    },
+    {
+      "feature": "telephone",
+      "mean_absolute_shap": 0.05365448457410306
+    }
+  ],
+  "examples": [
+    {
+      "source_row_number": 327,
+      "applicant": {
+        "checking_account_status": "A14",
+        "duration_months": 12,
+        "credit_history": "A34",
+        "purpose": "A42",
+        "credit_amount": 5801,
+        "savings_status": "A65",
+        "employment_duration": "A75",
+        "installment_rate": 2,
+        "personal_status_sex": "A93",
+        "other_debtors": "A101",
+        "residence_duration": 4,
+        "property": "A122",
+        "age_years": 49,
+        "other_installment_plans": "A143",
+        "housing": "A151",
+        "existing_credits": 1,
+        "job": "A173",
+        "dependents": 1,
+        "telephone": "A192",
+        "foreign_worker": "A201"
+      },
+      "prediction": {
+        "predicted_class": "good",
+        "predicted_bad_risk": 0,
+        "bad_risk_probability": 0.04994006755505433,
+        "decision_threshold": 0.13,
+        "risk_score": 4.994006755505433,
+        "risk_band": "LOW",
+        "suggested_action": "Lower Predicted Risk",
+        "top_risk_factors": [
+          {
+            "feature": "housing = rent (A151)",
+            "source_feature": "housing",
+            "shap_value": 0.18158658116650978
+          },
+          {
+            "feature": "employment duration is not 4 to < 7 years (A74)",
+            "source_feature": "employment_duration",
+            "shap_value": 0.07085398824468782
+          },
+          {
+            "feature": "purpose = furniture/equipment (A42)",
+            "source_feature": "purpose",
+            "shap_value": 0.06910568064102436
+          },
+          {
+            "feature": "purpose is not used car (A41)",
+            "source_feature": "purpose",
+            "shap_value": 0.0690839794118725
+          },
+          {
+            "feature": "property is not real estate (A121)",
+            "source_feature": "property",
+            "shap_value": 0.043779566198977285
+          }
+        ],
+        "top_protective_factors": [
+          {
+            "feature": "checking account status = no checking account (A14)",
+            "source_feature": "checking_account_status",
+            "shap_value": -0.589915062231344
+          },
+          {
+            "feature": "credit history = critical account or other credits outside this bank (A34)",
+            "source_feature": "credit_history",
+            "shap_value": -0.4355728196680733
+          },
+          {
+            "feature": "savings status is not < 100 DM (A61)",
+            "source_feature": "savings_status",
+            "shap_value": -0.17749214927957796
+          },
+          {
+            "feature": "savings status = unknown or no savings account (A65)",
+            "source_feature": "savings_status",
+            "shap_value": -0.14128259796180773
+          },
+          {
+            "feature": "personal status sex = male: single (A93)",
+            "source_feature": "personal_status_sex",
+            "shap_value": -0.10855129498240397
+          }
+        ],
+        "explanation_direction": "positive SHAP values increase the raw margin and probability of training class 1 (bad risk)"
+      }
+    },
+    {
+      "source_row_number": 647,
+      "applicant": {
+        "checking_account_status": "A11",
+        "duration_months": 30,
+        "credit_history": "A30",
+        "purpose": "A42",
+        "credit_amount": 4583,
+        "savings_status": "A61",
+        "employment_duration": "A73",
+        "installment_rate": 2,
+        "personal_status_sex": "A91",
+        "other_debtors": "A103",
+        "residence_duration": 2,
+        "property": "A121",
+        "age_years": 32,
+        "other_installment_plans": "A143",
+        "housing": "A152",
+        "existing_credits": 2,
+        "job": "A173",
+        "dependents": 1,
+        "telephone": "A191",
+        "foreign_worker": "A201"
+      },
+      "prediction": {
+        "predicted_class": "bad",
+        "predicted_bad_risk": 1,
+        "bad_risk_probability": 0.44963849483971013,
+        "decision_threshold": 0.13,
+        "risk_score": 44.96384948397101,
+        "risk_band": "MODERATE",
+        "suggested_action": "Manual Review Suggested",
+        "top_risk_factors": [
+          {
+            "feature": "credit history = no credits taken or all credits paid back duly (A30)",
+            "source_feature": "credit_history",
+            "shap_value": 0.5197953292389128
+          },
+          {
+            "feature": "checking account status is not no checking account (A14)",
+            "source_feature": "checking_account_status",
+            "shap_value": 0.5144958937936733
+          },
+          {
+            "feature": "duration months = 30",
+            "source_feature": "duration_months",
+            "shap_value": 0.4474358056523158
+          },
+          {
+            "feature": "personal status sex = male: divorced/separated (A91)",
+            "source_feature": "personal_status_sex",
+            "shap_value": 0.26877876515045496
+          },
+          {
+            "feature": "savings status = < 100 DM (A61)",
+            "source_feature": "savings_status",
+            "shap_value": 0.23144379440613772
+          }
+        ],
+        "top_protective_factors": [
+          {
+            "feature": "other debtors = guarantor (A103)",
+            "source_feature": "other_debtors",
+            "shap_value": -0.7492357725080172
+          },
+          {
+            "feature": "installment rate = 2",
+            "source_feature": "installment_rate",
+            "shap_value": -0.26271631545481544
+          },
+          {
+            "feature": "purpose is not new car (A40)",
+            "source_feature": "purpose",
+            "shap_value": -0.0997208910629733
+          },
+          {
+            "feature": "age years = 32",
+            "source_feature": "age_years",
+            "shap_value": -0.07658111159232105
+          },
+          {
+            "feature": "employment duration is not < 1 year (A72)",
+            "source_feature": "employment_duration",
+            "shap_value": -0.06981188157947214
+          }
+        ],
+        "explanation_direction": "positive SHAP values increase the raw margin and probability of training class 1 (bad risk)"
+      }
+    },
+    {
+      "source_row_number": 236,
+      "applicant": {
+        "checking_account_status": "A11",
+        "duration_months": 24,
+        "credit_history": "A32",
+        "purpose": "A43",
+        "credit_amount": 1823,
+        "savings_status": "A61",
+        "employment_duration": "A71",
+        "installment_rate": 4,
+        "personal_status_sex": "A93",
+        "other_debtors": "A101",
+        "residence_duration": 2,
+        "property": "A123",
+        "age_years": 30,
+        "other_installment_plans": "A142",
+        "housing": "A152",
+        "existing_credits": 1,
+        "job": "A174",
+        "dependents": 2,
+        "telephone": "A191",
+        "foreign_worker": "A201"
+      },
+      "prediction": {
+        "predicted_class": "bad",
+        "predicted_bad_risk": 1,
+        "bad_risk_probability": 0.7501048363534966,
+        "decision_threshold": 0.13,
+        "risk_score": 75.01048363534966,
+        "risk_band": "HIGH",
+        "suggested_action": "Higher Predicted Risk",
+        "top_risk_factors": [
+          {
+            "feature": "checking account status is not no checking account (A14)",
+            "source_feature": "checking_account_status",
+            "shap_value": 0.5122955229565691
+          },
+          {
+            "feature": "duration months = 24",
+            "source_feature": "duration_months",
+            "shap_value": 0.47689002782784895
+          },
+          {
+            "feature": "employment duration = unemployed (A71)",
+            "source_feature": "employment_duration",
+            "shap_value": 0.3398534199940007
+          },
+          {
+            "feature": "checking account status = < 0 DM (A11)",
+            "source_feature": "checking_account_status",
+            "shap_value": 0.3124035760335623
+          },
+          {
+            "feature": "savings status = < 100 DM (A61)",
+            "source_feature": "savings_status",
+            "shap_value": 0.2577859390269626
+          }
+        ],
+        "top_protective_factors": [
+          {
+            "feature": "job = management/self-employed/highly qualified employee/officer (A174)",
+            "source_feature": "job",
+            "shap_value": -0.10397180454686998
+          },
+          {
+            "feature": "purpose = radio/television (A43)",
+            "source_feature": "purpose",
+            "shap_value": -0.09720644162753898
+          },
+          {
+            "feature": "purpose is not new car (A40)",
+            "source_feature": "purpose",
+            "shap_value": -0.07549762982753852
+          },
+          {
+            "feature": "personal status sex = male: single (A93)",
+            "source_feature": "personal_status_sex",
+            "shap_value": -0.07316896174201128
+          },
+          {
+            "feature": "credit amount = 1823",
+            "source_feature": "credit_amount",
+            "shap_value": -0.061480751833375716
+          }
+        ],
+        "explanation_direction": "positive SHAP values increase the raw margin and probability of training class 1 (bad risk)"
+      }
+    }
+  ]
+}

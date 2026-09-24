@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}FinSight | What-If Simulator{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Sensitivity exploration</p><h1>What-If Simulator</h1><p>Compare two valid profiles using the same saved pipeline. Changed outputs show model sensitivity, not causal effects.</p></div>
+<div class="threshold-note mb-4">This feature demonstrates model sensitivity to changed inputs. It is not financial advice and does not establish causal effects.</div>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+<form method="post" class="prediction-form">
+  <div class="row g-4">
+    {% for prefix, title, values in [('original_', 'Original profile', original_values), ('updated_', 'Updated profile', updated_values)] %}
+    <div class="col-xl-6"><div class="card panel-card h-100"><div class="card-body"><h2 class="h5 mb-3">{{ title }}</h2><div class="row g-3">
+      {% for field in fields %}{% set key=prefix ~ field.name %}<div class="col-md-6"><label class="form-label" for="{{ key }}">{{ field.label }}</label>{% if field.categorical %}<select class="form-select" id="{{ key }}" name="{{ key }}" required><option value="">Select…</option>{% for option in field.options %}<option value="{{ option.value }}" {% if values.get(key) == option.value %}selected{% endif %}>{{ option.label }}</option>{% endfor %}</select>{% else %}<input class="form-control" type="number" id="{{ key }}" name="{{ key }}" min="{{ field.minimum }}" max="{{ field.maximum }}" step="1" value="{{ values.get(key, '') }}" required>{% endif %}{% if field.helper %}<div class="form-text">{{ field.helper }}</div>{% endif %}</div>{% endfor %}
+    </div></div></div></div>
+    {% endfor %}
+  </div>
+  <button class="btn btn-primary btn-lg w-100 my-4" type="submit">Compare saved-model estimates</button>
+</form>
+{% if comparison %}<section class="card result-card"><div class="card-body"><h2 class="h4 mb-4">What-if comparison</h2><div class="row g-3">
+{% for label, result in [('Original', comparison.original), ('Updated', comparison.updated)] %}<div class="col-lg-4"><div class="comparison-block"><span>{{ label }}</span><strong>{{ '%.2f'|format(result.bad_risk_probability * 100) }}%</strong><p>{{ '%.2f'|format(result.risk_score) }} / 100 · <span class="risk-badge risk-{{ result.risk_band|lower }}">{{ result.risk_band }}</span></p></div></div>{% endfor %}
+<div class="col-lg-4"><div class="comparison-block change-block"><span>Change</span><strong>{{ '%+.2f'|format(comparison.probability_change * 100) }} pp</strong><p>{{ '%+.2f'|format(comparison.score_change) }} score points</p></div></div>
+</div><div class="threshold-note mt-4">This feature demonstrates model sensitivity to changed inputs. It is not financial advice and does not establish causal effects.</div></div></section>{% endif %}
+{% endblock %}

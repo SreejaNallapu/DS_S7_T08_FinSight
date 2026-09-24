@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}FinSight | Overview{% endblock %}
+{% block content %}
+<section class="hero-panel mb-4">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-8">
+      <p class="eyebrow">Credit-risk analytics and decision support</p>
+      <h1>Understand portfolio patterns and model-estimated applicant risk.</h1>
+      <p class="lead mb-0">FinSight connects validated benchmark data, a cost-sensitive Gradient Boosting pipeline, and SHAP explanations in one transparent educational interface.</p>
+    </div>
+    <div class="col-lg-4 text-lg-end"><a class="btn btn-light btn-lg" href="{{ url_for('predict') }}">Assess an applicant</a></div>
+  </div>
+</section>
+{% if error %}<div class="alert alert-warning">{{ error }}</div>{% endif %}
+{% if summary %}
+<section class="row g-3 mb-4" aria-label="Project summary">
+  {% for label, value, detail in [
+    ('Applicants', summary.applicants, 'validated records'),
+    ('Good risk', summary.good, 'observed outcomes'),
+    ('Bad risk', summary.bad, 'observed outcomes'),
+    ('Final model', summary.model, 'saved pipeline'),
+    ('Holdout ROC-AUC', '%.4f'|format(summary.roc_auc), 'ranking performance'),
+    ('Bad-risk recall', '%.2f%%'|format(summary.recall * 100), 'cost-sensitive threshold')
+  ] %}
+  <div class="col-6 col-xl-2"><div class="metric-card h-100"><span>{{ label }}</span><strong>{{ value }}</strong><small>{{ detail }}</small></div></div>
+  {% endfor %}
+</section>
+<section class="row g-4">
+  {% for chart in charts %}<div class="col-xl-6"><div class="card panel-card h-100"><div class="card-body plot-wrap">{{ chart|safe }}</div></div></div>{% endfor %}
+</section>
+<div class="callout mt-4"><strong>Interpret carefully.</strong> Portfolio charts describe historical associations. They do not establish causes or justify automatic lending decisions.</div>
+{% endif %}
+{% endblock %}

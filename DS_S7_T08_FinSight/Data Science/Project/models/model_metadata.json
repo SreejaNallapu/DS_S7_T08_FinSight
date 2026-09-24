@@ -1,0 +1,142 @@
+{
+  "final_model_name": "gradient_boosting",
+  "trained_at_utc": "2026-09-17T14:53:49.602679+00:00",
+  "artifact": "finsight_pipeline.joblib",
+  "raw_dataset": "data/raw/german.data",
+  "raw_dataset_sha256": "b21f3d81db8071257d5ff1deaeba1fd4303b62712e6fcc9715c7a86202cb5871",
+  "feature_columns": [
+    "checking_account_status",
+    "duration_months",
+    "credit_history",
+    "purpose",
+    "credit_amount",
+    "savings_status",
+    "employment_duration",
+    "installment_rate",
+    "personal_status_sex",
+    "other_debtors",
+    "residence_duration",
+    "property",
+    "age_years",
+    "other_installment_plans",
+    "housing",
+    "existing_credits",
+    "job",
+    "dependents",
+    "telephone",
+    "foreign_worker"
+  ],
+  "excluded_columns": [
+    "applicant_id",
+    "credit_risk",
+    "credit_risk_label",
+    "is_bad_risk"
+  ],
+  "target_mapping": {
+    "original": {
+      "1": "good credit risk",
+      "2": "bad credit risk"
+    },
+    "training": {
+      "0": "good credit risk",
+      "1": "bad credit risk"
+    },
+    "positive_class": 1,
+    "probability_output": "bad_risk_probability is predict_proba for training class 1"
+  },
+  "split": {
+    "random_state": 42,
+    "train_rows": 800,
+    "test_rows": 200,
+    "cross_validation": "5-fold StratifiedKFold on training data",
+    "positive_class": "training class 1 = bad credit risk",
+    "probability_column": "predict_proba column whose classifier class label is 1",
+    "cost_formula": "5 * bad predicted good (FN) + 1 * good predicted bad (FP)",
+    "threshold_selection": "minimum out-of-fold training cost; ties favor recall then F1",
+    "selection_data": "training cross-validation and out-of-fold predictions only; holdout excluded"
+  },
+  "selected_threshold": 0.13,
+  "holdout_metrics": {
+    "threshold": 0.13,
+    "accuracy": 0.55,
+    "precision": 0.3881,
+    "recall": 0.8667,
+    "f1": 0.5361,
+    "roc_auc": 0.8005,
+    "confusion_matrix": [
+      [
+        58,
+        82
+      ],
+      [
+        8,
+        52
+      ]
+    ],
+    "cost": {
+      "false_positives_good_as_bad": 82,
+      "false_negatives_bad_as_good": 8,
+      "true_negatives": 58,
+      "true_positives": 52,
+      "total_cost": 122,
+      "average_cost_per_applicant": 0.61
+    }
+  },
+  "cross_validation": {
+    "accuracy": {
+      "mean": 0.7588,
+      "std": 0.0252,
+      "fold_values": [
+        0.7937,
+        0.775,
+        0.7562,
+        0.7188,
+        0.75
+      ]
+    },
+    "precision": {
+      "mean": 0.6338,
+      "std": 0.0644,
+      "fold_values": [
+        0.7419,
+        0.6579,
+        0.6154,
+        0.5484,
+        0.6053
+      ]
+    },
+    "recall": {
+      "mean": 0.4667,
+      "std": 0.0583,
+      "fold_values": [
+        0.4792,
+        0.5208,
+        0.5,
+        0.3542,
+        0.4792
+      ]
+    },
+    "f1": {
+      "mean": 0.5361,
+      "std": 0.0559,
+      "fold_values": [
+        0.5823,
+        0.5814,
+        0.5517,
+        0.4304,
+        0.5349
+      ]
+    },
+    "roc_auc": {
+      "mean": 0.7962,
+      "std": 0.0367,
+      "fold_values": [
+        0.8331,
+        0.814,
+        0.7954,
+        0.7269,
+        0.8116
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+:root { --navy:#102a43; --blue:#176b87; --teal:#1f9d78; --red:#c84b5b; --ink:#243b53; --muted:#627d98; --surface:#f4f7fa; --line:#d9e2ec; }
+body { background:var(--surface); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; }
+.navbar { background:var(--navy); box-shadow:0 2px 12px rgba(16,42,67,.18); }
+.navbar-brand { letter-spacing:.03em; }
+.navbar .nav-link { border-radius:.5rem; color:#c9d8e4; padding:.45rem .72rem!important; transition:color .18s ease,background-color .18s ease,box-shadow .18s ease; }
+.navbar .nav-link:hover { color:#fff; background:rgba(159,214,229,.09); }
+.navbar .nav-link.active { color:#dffaff; background:rgba(55,190,196,.16); box-shadow:0 0 0 1px rgba(105,218,220,.24),0 0 12px rgba(64,196,200,.12); }
+.page-shell { max-width:1500px; padding-bottom:2.5rem!important; }
+.hero-panel { background:linear-gradient(120deg,var(--navy),#1b4965); color:#fff; border-radius:1rem; padding:clamp(2rem,5vw,4.5rem); box-shadow:0 18px 45px rgba(16,42,67,.16); }
+.hero-panel h1 { font-size:clamp(2rem,4vw,3.5rem); max-width:900px; font-weight:700; }
+.hero-panel .lead { color:#d9eaf3; max-width:850px; }
+.eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; font-weight:700; color:#3f87a6; margin-bottom:.5rem; }
+.hero-panel .eyebrow { color:#9fd6e5; }
+.page-heading { margin-bottom:1.5rem; max-width:950px; }
+.page-heading h1 { font-weight:700; color:var(--navy); }
+.page-heading p:last-child { color:var(--muted); }
+.metric-card,.mini-metric { background:#fff; border:1px solid var(--line); border-radius:.8rem; padding:1rem; box-shadow:0 7px 20px rgba(16,42,67,.05); }
+.metric-card span,.metric-card small,.mini-metric span,.result-grid span,.comparison-block span { display:block; color:var(--muted); font-size:.78rem; }
+.metric-card strong { display:block; color:var(--navy); font-size:1.35rem; margin:.3rem 0; }
+.panel-card,.result-card { border:1px solid var(--line); border-radius:.9rem; box-shadow:0 8px 24px rgba(16,42,67,.06); }
+.result-card { border-top:4px solid var(--blue); }
+.plot-wrap { min-height:360px; }
+.plot-wrap .plotly-graph-div { width:100%!important; }
+.callout,.threshold-note { border-left:4px solid var(--blue); background:#eaf4f8; padding:1rem 1.1rem; border-radius:.35rem; color:#31576a; }
+.prediction-form .form-label { font-weight:600; font-size:.88rem; }
+.form-control,.form-select { border-color:#bcccdc; }
+.form-control:focus,.form-select:focus { border-color:var(--blue); box-shadow:0 0 0 .2rem rgba(23,107,135,.14); }
+.btn-primary { background:var(--blue); border-color:var(--blue); }
+.result-grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+.result-grid>div { padding:.9rem; background:#f6f9fb; border-radius:.6rem; }
+.result-grid strong { display:block; color:var(--navy); font-size:1.12rem; margin-top:.3rem; }
+.result-grid .action-text { font-size:.95rem; }
+.risk-badge { display:inline-block; border-radius:99px; padding:.35rem .7rem; font-weight:700; font-size:.75rem; }
+.risk-low { background:#daf5e9; color:#117253; }.risk-moderate { background:#fff1c2; color:#865b00; }.risk-high { background:#f9d7dc; color:#963847; }
+.factor-list { list-style:none; padding:0; margin:0; }
+.factor-list li { display:flex; justify-content:space-between; gap:1rem; padding:.55rem 0; border-bottom:1px solid #edf2f7; font-size:.88rem; }
+.risk-factors span { color:var(--red); }.protective-factors span { color:var(--teal); }
+.empty-state { display:flex; flex-direction:column; justify-content:center; min-height:420px; color:var(--muted); }
+.artifact-image { width:100%; max-height:720px; object-fit:contain; }
+.importance-list { padding-left:1.2rem; }.importance-list li { padding:.5rem 0; border-bottom:1px solid #edf2f7; }.importance-list li span { display:inline-block; width:75%; }.importance-list strong { color:var(--blue); }
+.mini-metric strong { display:block; font-size:1.2rem; color:var(--navy); margin-top:.25rem; }
+.performance-table th { background:#edf4f7; color:var(--navy); white-space:nowrap; }.performance-table td { white-space:nowrap; }.selected-row td { background:#eef8f6; }
+.comparison-block { background:#f6f9fb; padding:1.2rem; border-radius:.7rem; height:100%; }.comparison-block strong { display:block; font-size:1.8rem; color:var(--navy); margin:.4rem 0; }.change-block { background:#eaf4f8; }
+@media (max-width:767px) { .result-grid { grid-template-columns:1fr; } .plot-wrap { min-height:300px; } }

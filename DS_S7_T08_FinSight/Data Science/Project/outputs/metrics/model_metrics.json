@@ -1,0 +1,1057 @@
+{
+  "experiment_design": {
+    "random_state": 42,
+    "train_rows": 800,
+    "test_rows": 200,
+    "cross_validation": "5-fold StratifiedKFold on training data",
+    "positive_class": "training class 1 = bad credit risk",
+    "probability_column": "predict_proba column whose classifier class label is 1",
+    "cost_formula": "5 * bad predicted good (FN) + 1 * good predicted bad (FP)",
+    "threshold_selection": "minimum out-of-fold training cost; ties favor recall then F1",
+    "selection_data": "training cross-validation and out-of-fold predictions only; holdout excluded"
+  },
+  "dataset": {
+    "source": "data/raw/german.data",
+    "sha256": "b21f3d81db8071257d5ff1deaeba1fd4303b62712e6fcc9715c7a86202cb5871",
+    "rows": 1000,
+    "raw_columns": 21
+  },
+  "features": {
+    "used": [
+      "checking_account_status",
+      "duration_months",
+      "credit_history",
+      "purpose",
+      "credit_amount",
+      "savings_status",
+      "employment_duration",
+      "installment_rate",
+      "personal_status_sex",
+      "other_debtors",
+      "residence_duration",
+      "property",
+      "age_years",
+      "other_installment_plans",
+      "housing",
+      "existing_credits",
+      "job",
+      "dependents",
+      "telephone",
+      "foreign_worker"
+    ],
+    "excluded": [
+      "applicant_id",
+      "credit_risk",
+      "credit_risk_label",
+      "is_bad_risk"
+    ]
+  },
+  "target_mapping": {
+    "original": {
+      "1": "good credit risk",
+      "2": "bad credit risk"
+    },
+    "training": {
+      "0": "good credit risk",
+      "1": "bad credit risk"
+    },
+    "positive_class": 1,
+    "probability_output": "bad_risk_probability is predict_proba for training class 1"
+  },
+  "trained_at_utc": "2026-09-17T14:53:49.602679+00:00",
+  "tuning": {
+    "logistic_regression": {
+      "best_cv_roc_auc": 0.7838,
+      "best_params": {
+        "model__class_weight": null,
+        "model__C": 0.1
+      },
+      "candidates_evaluated": 8
+    },
+    "random_forest": {
+      "best_cv_roc_auc": 0.7936,
+      "best_params": {
+        "model__n_estimators": 200,
+        "model__min_samples_leaf": 2,
+        "model__max_features": "sqrt",
+        "model__max_depth": 5,
+        "model__class_weight": "balanced"
+      },
+      "candidates_evaluated": 8
+    },
+    "gradient_boosting": {
+      "best_cv_roc_auc": 0.7962,
+      "best_params": {
+        "model__subsample": 0.8,
+        "model__n_estimators": 200,
+        "model__min_samples_leaf": 5,
+        "model__max_depth": 3,
+        "model__learning_rate": 0.05
+      },
+      "candidates_evaluated": 8
+    }
+  },
+  "models": {
+    "logistic_regression": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.7475,
+          "std": 0.038,
+          "fold_values": [
+            0.7688,
+            0.775,
+            0.7188,
+            0.6875,
+            0.7875
+          ]
+        },
+        "precision": {
+          "mean": 0.6148,
+          "std": 0.0987,
+          "fold_values": [
+            0.72,
+            0.6667,
+            0.5484,
+            0.4545,
+            0.6842
+          ]
+        },
+        "recall": {
+          "mean": 0.3958,
+          "std": 0.1179,
+          "fold_values": [
+            0.375,
+            0.5,
+            0.3542,
+            0.2083,
+            0.5417
+          ]
+        },
+        "f1": {
+          "mean": 0.4771,
+          "std": 0.1133,
+          "fold_values": [
+            0.4932,
+            0.5714,
+            0.4304,
+            0.2857,
+            0.6047
+          ]
+        },
+        "roc_auc": {
+          "mean": 0.7838,
+          "std": 0.0502,
+          "fold_values": [
+            0.8238,
+            0.8199,
+            0.7863,
+            0.6871,
+            0.8019
+          ]
+        }
+      },
+      "default": {
+        "threshold": 0.5,
+        "accuracy": 0.79,
+        "precision": 0.7143,
+        "recall": 0.5,
+        "f1": 0.5882,
+        "roc_auc": 0.8095,
+        "confusion_matrix": [
+          [
+            128,
+            12
+          ],
+          [
+            30,
+            30
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 12,
+          "false_negatives_bad_as_good": 30,
+          "true_negatives": 128,
+          "true_positives": 30,
+          "total_cost": 162,
+          "average_cost_per_applicant": 0.81
+        }
+      },
+      "cost_sensitive": {
+        "threshold": 0.18,
+        "accuracy": 0.605,
+        "precision": 0.424,
+        "recall": 0.8833,
+        "f1": 0.573,
+        "roc_auc": 0.8095,
+        "confusion_matrix": [
+          [
+            68,
+            72
+          ],
+          [
+            7,
+            53
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 72,
+          "false_negatives_bad_as_good": 7,
+          "true_negatives": 68,
+          "true_positives": 53,
+          "total_cost": 107,
+          "average_cost_per_applicant": 0.535
+        }
+      },
+      "threshold_selected_from_training_oof": {
+        "threshold": 0.18,
+        "accuracy": 0.6075,
+        "precision": 0.4269,
+        "recall": 0.9,
+        "f1": 0.5791,
+        "roc_auc": 0.7813,
+        "confusion_matrix": [
+          [
+            270,
+            290
+          ],
+          [
+            24,
+            216
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 290,
+          "false_negatives_bad_as_good": 24,
+          "true_negatives": 270,
+          "true_positives": 216,
+          "total_cost": 410,
+          "average_cost_per_applicant": 0.5125
+        }
+      },
+      "feature_importance": [
+        {
+          "feature": "checking_account_status_A14",
+          "importance": 0.715439,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "checking_account_status_A11",
+          "importance": 0.525887,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "credit_history_A34",
+          "importance": 0.525796,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "savings_status_A61",
+          "importance": 0.456614,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "purpose_A41",
+          "importance": 0.423372,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "purpose_A46",
+          "importance": 0.384391,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "personal_status_sex_A93",
+          "importance": 0.343625,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "employment_duration_A74",
+          "importance": 0.342456,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "savings_status_A65",
+          "importance": 0.33752,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "purpose_A40",
+          "importance": 0.324759,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "property_A124",
+          "importance": 0.322795,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "other_installment_plans_A143",
+          "importance": 0.314839,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "duration_months",
+          "importance": 0.31164,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "installment_rate",
+          "importance": 0.300805,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "other_installment_plans_A141",
+          "importance": 0.291301,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "credit_history_A30",
+          "importance": 0.285254,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "employment_duration_A72",
+          "importance": 0.28497,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "housing_A151",
+          "importance": 0.268229,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "property_A121",
+          "importance": 0.246505,
+          "type": "absolute_coefficient"
+        },
+        {
+          "feature": "foreign_worker_A202",
+          "importance": 0.239774,
+          "type": "absolute_coefficient"
+        }
+      ]
+    },
+    "decision_tree": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.695,
+          "std": 0.0228,
+          "fold_values": [
+            0.6687,
+            0.7188,
+            0.675,
+            0.6875,
+            0.725
+          ]
+        },
+        "precision": {
+          "mean": 0.4814,
+          "std": 0.0419,
+          "fold_values": [
+            0.439,
+            0.5283,
+            0.4375,
+            0.4688,
+            0.5333
+          ]
+        },
+        "recall": {
+          "mean": 0.4458,
+          "std": 0.1512,
+          "fold_values": [
+            0.375,
+            0.5833,
+            0.2917,
+            0.3125,
+            0.6667
+          ]
+        },
+        "f1": {
+          "mean": 0.4553,
+          "std": 0.0988,
+          "fold_values": [
+            0.4045,
+            0.5545,
+            0.35,
+            0.375,
+            0.5926
+          ]
+        },
+        "roc_auc": {
+          "mean": 0.7016,
+          "std": 0.0467,
+          "fold_values": [
+            0.6905,
+            0.7545,
+            0.7176,
+            0.6177,
+            0.7278
+          ]
+        }
+      },
+      "default": {
+        "threshold": 0.5,
+        "accuracy": 0.65,
+        "precision": 0.4242,
+        "recall": 0.4667,
+        "f1": 0.4444,
+        "roc_auc": 0.6741,
+        "confusion_matrix": [
+          [
+            102,
+            38
+          ],
+          [
+            32,
+            28
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 38,
+          "false_negatives_bad_as_good": 32,
+          "true_negatives": 102,
+          "true_positives": 28,
+          "total_cost": 198,
+          "average_cost_per_applicant": 0.99
+        }
+      },
+      "cost_sensitive": {
+        "threshold": 0.1,
+        "accuracy": 0.605,
+        "precision": 0.4159,
+        "recall": 0.7833,
+        "f1": 0.5434,
+        "roc_auc": 0.6741,
+        "confusion_matrix": [
+          [
+            74,
+            66
+          ],
+          [
+            13,
+            47
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 66,
+          "false_negatives_bad_as_good": 13,
+          "true_negatives": 74,
+          "true_positives": 47,
+          "total_cost": 131,
+          "average_cost_per_applicant": 0.655
+        }
+      },
+      "threshold_selected_from_training_oof": {
+        "threshold": 0.1,
+        "accuracy": 0.605,
+        "precision": 0.4202,
+        "recall": 0.8333,
+        "f1": 0.5587,
+        "roc_auc": 0.7013,
+        "confusion_matrix": [
+          [
+            284,
+            276
+          ],
+          [
+            40,
+            200
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 276,
+          "false_negatives_bad_as_good": 40,
+          "true_negatives": 284,
+          "true_positives": 200,
+          "total_cost": 476,
+          "average_cost_per_applicant": 0.595
+        }
+      },
+      "feature_importance": [
+        {
+          "feature": "checking_account_status_A14",
+          "importance": 0.290985,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "duration_months",
+          "importance": 0.196043,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_amount",
+          "importance": 0.099181,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A61",
+          "importance": 0.055783,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "employment_duration_A73",
+          "importance": 0.048615,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A46",
+          "importance": 0.045467,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "other_installment_plans_A141",
+          "importance": 0.042817,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A64",
+          "importance": 0.040135,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "installment_rate",
+          "importance": 0.028255,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A31",
+          "importance": 0.026671,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "personal_status_sex_A93",
+          "importance": 0.020548,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "dependents",
+          "importance": 0.016179,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "property_A124",
+          "importance": 0.01478,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "employment_duration_A74",
+          "importance": 0.014369,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "age_years",
+          "importance": 0.014363,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A30",
+          "importance": 0.013816,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A33",
+          "importance": 0.013517,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "job_A172",
+          "importance": 0.012932,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "existing_credits",
+          "importance": 0.005542,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "housing_A151",
+          "importance": 0.0,
+          "type": "impurity_importance"
+        }
+      ]
+    },
+    "random_forest": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.7075,
+          "std": 0.039,
+          "fold_values": [
+            0.75,
+            0.7438,
+            0.6875,
+            0.6438,
+            0.7125
+          ]
+        },
+        "precision": {
+          "mean": 0.5083,
+          "std": 0.0479,
+          "fold_values": [
+            0.5588,
+            0.5538,
+            0.4865,
+            0.4286,
+            0.5139
+          ]
+        },
+        "recall": {
+          "mean": 0.725,
+          "std": 0.0827,
+          "fold_values": [
+            0.7917,
+            0.75,
+            0.75,
+            0.5625,
+            0.7708
+          ]
+        },
+        "f1": {
+          "mean": 0.5971,
+          "std": 0.0594,
+          "fold_values": [
+            0.6552,
+            0.6372,
+            0.5902,
+            0.4865,
+            0.6167
+          ]
+        },
+        "roc_auc": {
+          "mean": 0.7936,
+          "std": 0.0461,
+          "fold_values": [
+            0.8285,
+            0.8304,
+            0.7842,
+            0.7076,
+            0.8175
+          ]
+        }
+      },
+      "default": {
+        "threshold": 0.5,
+        "accuracy": 0.72,
+        "precision": 0.5233,
+        "recall": 0.75,
+        "f1": 0.6164,
+        "roc_auc": 0.7912,
+        "confusion_matrix": [
+          [
+            99,
+            41
+          ],
+          [
+            15,
+            45
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 41,
+          "false_negatives_bad_as_good": 15,
+          "true_negatives": 99,
+          "true_positives": 45,
+          "total_cost": 116,
+          "average_cost_per_applicant": 0.58
+        }
+      },
+      "cost_sensitive": {
+        "threshold": 0.34,
+        "accuracy": 0.53,
+        "precision": 0.3836,
+        "recall": 0.9333,
+        "f1": 0.5437,
+        "roc_auc": 0.7912,
+        "confusion_matrix": [
+          [
+            50,
+            90
+          ],
+          [
+            4,
+            56
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 90,
+          "false_negatives_bad_as_good": 4,
+          "true_negatives": 50,
+          "true_positives": 56,
+          "total_cost": 110,
+          "average_cost_per_applicant": 0.55
+        }
+      },
+      "threshold_selected_from_training_oof": {
+        "threshold": 0.34,
+        "accuracy": 0.54,
+        "precision": 0.3904,
+        "recall": 0.95,
+        "f1": 0.5534,
+        "roc_auc": 0.7916,
+        "confusion_matrix": [
+          [
+            204,
+            356
+          ],
+          [
+            12,
+            228
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 356,
+          "false_negatives_bad_as_good": 12,
+          "true_negatives": 204,
+          "true_positives": 228,
+          "total_cost": 416,
+          "average_cost_per_applicant": 0.52
+        }
+      },
+      "feature_importance": [
+        {
+          "feature": "checking_account_status_A14",
+          "importance": 0.165373,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "duration_months",
+          "importance": 0.091156,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "checking_account_status_A11",
+          "importance": 0.075705,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_amount",
+          "importance": 0.071583,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A34",
+          "importance": 0.044423,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "age_years",
+          "importance": 0.03983,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A61",
+          "importance": 0.035471,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A65",
+          "importance": 0.029346,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "other_installment_plans_A141",
+          "importance": 0.027004,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "checking_account_status_A12",
+          "importance": 0.026744,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "other_installment_plans_A143",
+          "importance": 0.021828,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "employment_duration_A72",
+          "importance": 0.021735,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "property_A121",
+          "importance": 0.021648,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "installment_rate",
+          "importance": 0.020538,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "property_A124",
+          "importance": 0.02016,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "housing_A152",
+          "importance": 0.01541,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "personal_status_sex_A93",
+          "importance": 0.013643,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A41",
+          "importance": 0.01339,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A43",
+          "importance": 0.011779,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "residence_duration",
+          "importance": 0.011401,
+          "type": "impurity_importance"
+        }
+      ]
+    },
+    "gradient_boosting": {
+      "cv": {
+        "accuracy": {
+          "mean": 0.7588,
+          "std": 0.0252,
+          "fold_values": [
+            0.7937,
+            0.775,
+            0.7562,
+            0.7188,
+            0.75
+          ]
+        },
+        "precision": {
+          "mean": 0.6338,
+          "std": 0.0644,
+          "fold_values": [
+            0.7419,
+            0.6579,
+            0.6154,
+            0.5484,
+            0.6053
+          ]
+        },
+        "recall": {
+          "mean": 0.4667,
+          "std": 0.0583,
+          "fold_values": [
+            0.4792,
+            0.5208,
+            0.5,
+            0.3542,
+            0.4792
+          ]
+        },
+        "f1": {
+          "mean": 0.5361,
+          "std": 0.0559,
+          "fold_values": [
+            0.5823,
+            0.5814,
+            0.5517,
+            0.4304,
+            0.5349
+          ]
+        },
+        "roc_auc": {
+          "mean": 0.7962,
+          "std": 0.0367,
+          "fold_values": [
+            0.8331,
+            0.814,
+            0.7954,
+            0.7269,
+            0.8116
+          ]
+        }
+      },
+      "default": {
+        "threshold": 0.5,
+        "accuracy": 0.79,
+        "precision": 0.6875,
+        "recall": 0.55,
+        "f1": 0.6111,
+        "roc_auc": 0.8005,
+        "confusion_matrix": [
+          [
+            125,
+            15
+          ],
+          [
+            27,
+            33
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 15,
+          "false_negatives_bad_as_good": 27,
+          "true_negatives": 125,
+          "true_positives": 33,
+          "total_cost": 150,
+          "average_cost_per_applicant": 0.75
+        }
+      },
+      "cost_sensitive": {
+        "threshold": 0.13,
+        "accuracy": 0.55,
+        "precision": 0.3881,
+        "recall": 0.8667,
+        "f1": 0.5361,
+        "roc_auc": 0.8005,
+        "confusion_matrix": [
+          [
+            58,
+            82
+          ],
+          [
+            8,
+            52
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 82,
+          "false_negatives_bad_as_good": 8,
+          "true_negatives": 58,
+          "true_positives": 52,
+          "total_cost": 122,
+          "average_cost_per_applicant": 0.61
+        }
+      },
+      "threshold_selected_from_training_oof": {
+        "threshold": 0.13,
+        "accuracy": 0.6075,
+        "precision": 0.4277,
+        "recall": 0.9125,
+        "f1": 0.5824,
+        "roc_auc": 0.7943,
+        "confusion_matrix": [
+          [
+            267,
+            293
+          ],
+          [
+            21,
+            219
+          ]
+        ],
+        "cost": {
+          "false_positives_good_as_bad": 293,
+          "false_negatives_bad_as_good": 21,
+          "true_negatives": 267,
+          "true_positives": 219,
+          "total_cost": 398,
+          "average_cost_per_applicant": 0.4975
+        }
+      },
+      "feature_importance": [
+        {
+          "feature": "credit_amount",
+          "importance": 0.173032,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "checking_account_status_A14",
+          "importance": 0.130122,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "duration_months",
+          "importance": 0.117732,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "age_years",
+          "importance": 0.070783,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A61",
+          "importance": 0.036732,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "checking_account_status_A11",
+          "importance": 0.032797,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "installment_rate",
+          "importance": 0.029881,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "other_installment_plans_A141",
+          "importance": 0.025408,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A34",
+          "importance": 0.025173,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "employment_duration_A72",
+          "importance": 0.022287,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "property_A124",
+          "importance": 0.021291,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "savings_status_A65",
+          "importance": 0.019147,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "other_installment_plans_A143",
+          "importance": 0.017628,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A30",
+          "importance": 0.016931,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A46",
+          "importance": 0.016137,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "credit_history_A31",
+          "importance": 0.015374,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "property_A121",
+          "importance": 0.014426,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A40",
+          "importance": 0.013513,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "purpose_A41",
+          "importance": 0.013448,
+          "type": "impurity_importance"
+        },
+        {
+          "feature": "residence_duration",
+          "importance": 0.011931,
+          "type": "impurity_importance"
+        }
+      ]
+    }
+  },
+  "selected_model": {
+    "name": "gradient_boosting",
+    "threshold": 0.13,
+    "rationale": "Selected from training evidence using lowest out-of-fold 5:1 misclassification cost, then mean CV ROC-AUC, bad-risk recall, F1, and ROC-AUC stability. Holdout metrics were not used for selection; interpretability and deployment practicality were reviewed in the report."
+  }
+}
